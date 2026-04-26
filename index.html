@@ -509,7 +509,7 @@
     <h2>Soy<br/>lo que creí<br/>que no era</h2>
     <div class="meta">
       <div>Serie · 2023</div>
-      <div style="margin-top:16px; text-decoration:underline; text-underline-offset:4px; cursor:pointer">Leer prólogo →</div>
+      <div style="margin-top:16px; text-decoration:underline; text-underline-offset:4px; cursor:pointer" onclick="openPrologo()">Leer prólogo →</div>
     </div>
   </div>
   <div class="soy-grid">
@@ -520,6 +520,40 @@
     <div class="work"><div class="w-text">no<br/>era</div></div>
   </div>
 </section>
+
+<!-- ===== PRÓLOGO MODAL ===== -->
+<div class="modal-backdrop" id="prologo-modal" onclick="if(event.target===this)closePrologo()" role="dialog" aria-modal="true" aria-labelledby="prologo-title" hidden>
+  <article class="modal-paper">
+    <button class="modal-close" onclick="closePrologo()" aria-label="Cerrar">Cerrar ✕</button>
+    <p class="kicker-modal">Prólogo</p>
+    <h2 id="prologo-title">Testigo y testimonio<br/>de un reconocerse nuevo</h2>
+    <p class="modal-author">Por Victoria Lorenzo</p>
+
+    <div class="modal-body">
+      <p>El "prólogo" o "preámbulo" del Libro <span class="blank"></span> tiene la peculiaridad de haber ocurrido en el pasado, durante el trabajo que hicimos en el taller de proceso creativo, sincronario.</p>
+
+      <p>En ese sentido, las siguientes líneas son un memo del recorrido transitado, los recuerdos e impresiones que quedaron, así como también un abrazo de bienvenida al mundo, querido <span class="blank"></span>.</p>
+
+      <p>Para entrar en el contexto de esta obra propondría dejarnos impactar por las distintas láminas, como un oleaje que va moviendo tramas o un follaje que, al caer, va manifestando un íntimo contacto de texturas por un lado ásperas y angulosas y, por otro, suenan en pulsos suaves, exfoliando capas, sutilmente.</p>
+
+      <p>Trabajar con Lucia durante esta "exfoliación" me conectó con la importancia de tomar en serio los procesos. Que lo que hagamos no sea una cosa más que tiramos al mundo sin saber ni de dónde viene ni a dónde va, que expresar sea tanto acto de coraje como gesto de expropiación del trauma, que libere y regenere al psiquismo personal y vincular.</p>
+
+      <p>Un acto de coraje y conexión que, al entregarse, sintoniza una ruta de navegación, izando vela en altamar, sirviendo en la tarea de construir esto que llamamos "creatividad".</p>
+
+      <p>El libro reedita nuestras contracciones a la hora de percibir la vida y lo que somos, tocando de cerca esa emocionalidad, mirando a los ojos, cediendo, apareciendo.</p>
+
+      <p>Esta sinapsis-contacto-mirada admite el surgimiento de un texto sin defensas o dobles caras, habilitando la posibilidad de ir dando cuenta de que también somos eso que creímos no ser, y que eso que creímos no ser es lo nuevo en nosotros.</p>
+
+      <p>En esas conversaciones imposibles que se dan entre las voces que construyen nuestras narrativas (con sus volúmenes y ecualizaciones; incluso mientras asistimos al shock de oírnos hablar distintos idiomas al mismo tiempo, idiomas que, aparentemente, no se pegan ni con moco) es que nace: <em>Soy lo que creí que no era</em>. Un nuevo amor, un nuevo amanecer, la calle de siempre, pero sorprendida.</p>
+
+      <p>Larga Vida a lo que sigue, ha sido un placer.</p>
+
+      <div class="definition">
+        <strong>exfoliar</strong> [verbo transitivo] dividir o separar suavemente en escamas o láminas, del latín, deshojar. ex-follaje.
+      </div>
+    </div>
+  </article>
+</div>
 
 <!-- ===== SOBRE MÍ ===== -->
 <section id="sobre" data-screen-label="03 Sobre mí">
@@ -754,6 +788,110 @@
   }
   body[data-mode="dark"] nav.top{background:color-mix(in srgb, var(--paper) 92%, transparent)}
   body[data-mode="dark"] .proj:hover{background:rgba(255,255,255,.04)}
+
+  /* ---------- PRÓLOGO MODAL ---------- */
+  .modal-backdrop{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.72);
+    z-index:200;
+    display:none;
+    align-items:flex-start; justify-content:center;
+    padding:6vh 4vw;
+    overflow-y:auto;
+    opacity:0;
+    transition:opacity .25s ease;
+  }
+  .modal-backdrop.open{display:flex; opacity:1}
+  body.modal-open{overflow:hidden}
+  .modal-paper{
+    background:var(--paper);
+    width:100%;
+    max-width:760px;
+    padding:72px 80px 96px;
+    position:relative;
+    font-family:var(--sans);
+    box-shadow:0 60px 120px rgba(0,0,0,.5);
+    transform:translateY(20px);
+    transition:transform .3s ease;
+  }
+  .modal-backdrop.open .modal-paper{transform:translateY(0)}
+  .modal-close{
+    position:absolute; top:24px; right:24px;
+    background:none; border:none;
+    font-family:var(--mono);
+    font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--ink); cursor:pointer;
+    padding:8px 12px;
+    transition:opacity .2s;
+  }
+  .modal-close:hover{opacity:.6}
+  .modal-paper .kicker-modal{
+    font-family:var(--mono);
+    font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 24px;
+  }
+  .modal-paper h2{
+    font-family:var(--logo-font);
+    font-weight:900;
+    font-size:clamp(28px, 4.2vw, 52px);
+    line-height:1;
+    letter-spacing:-.02em;
+    text-transform:uppercase;
+    margin:0 0 12px;
+  }
+  .modal-paper .modal-subtitle{
+    font-family:'Instrument Serif', serif;
+    font-style:italic;
+    font-size:clamp(20px, 2.4vw, 28px);
+    line-height:1.2;
+    color:var(--ink);
+    margin:0 0 32px;
+  }
+  .modal-paper .modal-author{
+    font-family:var(--mono);
+    font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 56px;
+    padding-bottom:32px;
+    border-bottom:1px solid var(--rule);
+  }
+  .modal-body p{
+    font-size:15px;
+    line-height:1.85;
+    margin:0 0 1.5em;
+    color:var(--ink);
+  }
+  .modal-body .blank{
+    display:inline-block;
+    width:90px; height:1px;
+    background:var(--ink);
+    margin:0 6px 6px;
+    vertical-align:middle;
+    opacity:.55;
+  }
+  .modal-body em{
+    font-family:'Instrument Serif', serif;
+    font-style:italic;
+    font-size:1.05em;
+  }
+  .modal-body .definition{
+    margin-top:64px;
+    padding-top:32px;
+    border-top:1px solid var(--rule);
+    font-family:var(--mono);
+    font-size:12px;
+    line-height:1.75;
+    color:var(--ink-soft);
+  }
+  .modal-body .definition strong{
+    color:var(--ink);
+    font-weight:500;
+  }
+  @media (max-width:640px){
+    .modal-paper{padding:56px 28px 64px}
+    .modal-body .blank{width:60px}
+  }
 </style>
 
 <script>
@@ -784,6 +922,27 @@
     document.getElementById('proyectos').scrollIntoView({behavior:'smooth'});
   }
   window.closeDetail = closeDetail;
+
+  // ----- Prólogo modal -----
+  function openPrologo(){
+    const m = document.getElementById('prologo-modal');
+    m.hidden = false;
+    requestAnimationFrame(() => m.classList.add('open'));
+    document.body.classList.add('modal-open');
+  }
+  function closePrologo(){
+    const m = document.getElementById('prologo-modal');
+    m.classList.remove('open');
+    document.body.classList.remove('modal-open');
+    setTimeout(() => { m.hidden = true; }, 250);
+  }
+  window.openPrologo = openPrologo;
+  window.closePrologo = closePrologo;
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('prologo-modal').classList.contains('open')) {
+      closePrologo();
+    }
+  });
 
   // ----- TWEAKS -----
   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
