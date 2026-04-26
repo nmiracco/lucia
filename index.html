@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Inter:wght@300;400;500;600;700;900&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Archivo+Black&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Inter:wght@300;400;500;600;700;900&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Archivo+Black&family=Anton&family=Playfair+Display:ital,wght@0,700;1,700&family=Fraunces:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#0b0b0b;
@@ -22,7 +22,6 @@
     --accent:#0b0b0b;
     --mono:'IBM Plex Mono', monospace;
     --sans:'Inter', system-ui, sans-serif;
-    --serif-italic:'Instrument Serif', serif;
     --page-x: 48px;
   }
   *{box-sizing:border-box}
@@ -98,21 +97,18 @@
     color:var(--ink);
     margin:0;
     user-select:none;
-    display:flex;
-    align-items:flex-end;
-    flex-wrap:nowrap;
   }
-  .obrero-mark .coma{
-    font-family:var(--serif-italic);
-    font-style:italic;
-    font-weight:400;
-    font-size:1.15em;
-    line-height:.6;
-    letter-spacing:-.05em;
-    margin-left:-0.02em;
-    color:var(--ink);
-    display:inline-block;
-    transform:translateY(.08em);
+  .home-rule{
+    margin-top:72px;
+    height:1px; background:var(--ink);
+    position:relative;
+  }
+  .home-rule::before{
+    content:"";
+    position:absolute; left:0; top:-36px; bottom:-36px;
+    width:2px; background:var(--muted); opacity:.5;
+    transform:rotate(18deg);
+    transform-origin:center;
   }
   .home-meta{
     display:grid;
@@ -167,9 +163,15 @@
   .sec-head{
     display:flex; align-items:baseline; justify-content:space-between;
     padding:40px 0 60px;
-    border-bottom:1px solid var(--ink);
+    border-bottom:var(--rules-on, 1px solid var(--ink));
     margin-bottom:60px;
   }
+  body[data-rules="off"] .sec-head{border-bottom:none}
+  body[data-rules="off"] .projects-list{border-top:none}
+  body[data-rules="off"] .proj{border-bottom:none}
+  body[data-rules="off"] .sobre-meta{border-top:none}
+  body[data-rules="off"] .contact-lines a{border-bottom:none}
+  body[data-rules="off"] footer{border-top:none}
   .sec-head .num{
     font-family:var(--mono);
     font-size:11px;
@@ -237,6 +239,7 @@
     color:var(--ink-soft);
   }
 
+  /* featured project (primary) */
   .proj.primary{
     background:var(--ink);
     color:var(--paper);
@@ -251,16 +254,28 @@
   /* ---------- SOBRE MÍ ---------- */
   #sobre .sobre-grid{
     display:grid;
-    grid-template-columns: 1.1fr 1fr;
+    grid-template-columns: var(--sobre-cols, 1.1fr 1fr);
     gap:80px;
     align-items:start;
   }
-  .sobre-body{width:696px; max-width:100%}
+  body[data-sobre-layout="reverse"] #sobre .sobre-grid > div:first-child{order:2}
+  body[data-sobre-layout="reverse"] #sobre .sobre-grid > div:last-child{order:1}
+  body[data-sobre-layout="stack"] #sobre .sobre-grid{grid-template-columns:1fr}
   .sobre-body p{
-    font-size:15px;
-    font-family:var(--sans);
+    font-size:var(--sobre-size, 15px);
+    font-family:var(--sobre-font, var(--sans));
     line-height:1.75; margin:0 0 20px;
-    max-width:520px;
+    max-width:var(--sobre-width, 520px);
+  }
+  .sobre-body p.lead{
+    font-family:var(--logo-font);
+    font-weight:900;
+    font-size:var(--sobre-lead, clamp(28px, 3.2vw, 42px));
+    line-height:1.05;
+    letter-spacing:-.02em;
+    text-transform:none;
+    margin-bottom:40px;
+    max-width:560px;
   }
   .portrait{
     width:100%; aspect-ratio:4/5;
@@ -275,6 +290,16 @@
     font-family:var(--mono); font-size:11px; letter-spacing:.14em;
     background-image:repeating-linear-gradient(45deg, transparent 0 14px, rgba(255,255,255,.025) 14px 15px);
   }
+  .sobre-meta{
+    margin-top:40px;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+    padding-top:24px; border-top:1px solid var(--rule);
+  }
+  .sobre-meta div .k{
+    font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:6px;
+  }
+  .sobre-meta div .v{font-size:14px; font-weight:500}
 
   /* ---------- CONTACTO ---------- */
   #contacto .contact-grid{
@@ -313,6 +338,19 @@
     font-size:11px; letter-spacing:.18em; text-transform:uppercase;
     color:var(--ink-soft);
     margin-top:40px; line-height:1.8;
+  }
+  .mirror{
+    width:100%; aspect-ratio:4/5;
+    background:linear-gradient(160deg,#2c2c2c,#555);
+    position:relative; overflow:hidden;
+  }
+  .mirror::after{
+    content:"MIRROR SELF-PORTRAIT · B&W";
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    color:rgba(255,255,255,.55);
+    font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+    background-image:repeating-linear-gradient(45deg, transparent 0 14px, rgba(255,255,255,.025) 14px 15px);
   }
 
   /* ---------- PROJECT DETAIL (SOY LO QUE CREÍ) ---------- */
@@ -399,7 +437,6 @@
     .proj .desc, .proj .year{grid-column:2}
     .proj .year{text-align:left}
     #sobre .sobre-grid, #contacto .contact-grid{grid-template-columns:1fr; gap:40px}
-    .sobre-body{width:100%}
     .soy-head{grid-template-columns:1fr; gap:24px}
     .soy-grid{grid-template-columns:repeat(2,1fr)}
     .work.wide{grid-column: span 2}
@@ -417,9 +454,9 @@
 </nav>
 
 <!-- ===== HOME ===== -->
-<section id="home">
+<section id="home" data-screen-label="01 Home">
   <p class="kicker">Artes visuales</p>
-  <h1 class="obrero-mark">OBRERO<span class="coma" aria-hidden="true">,</span></h1>
+  <h1 class="obrero-mark">OBRERO</h1>
 
   <div class="home-meta">
     <div>
@@ -436,7 +473,7 @@
 </section>
 
 <!-- ===== PROYECTOS ===== -->
-<section id="proyectos">
+<section id="proyectos" data-screen-label="02 Proyectos">
   <header class="sec-head">
     <span class="num">01 / Índice</span>
     <h1>Proyectos</h1>
@@ -466,7 +503,7 @@
 </section>
 
 <!-- ===== DETAIL: SOY LO QUE CREÍ ===== -->
-<section id="proyecto-soy">
+<section id="proyecto-soy" data-screen-label="02a Soy lo que creí">
   <button class="back" onclick="closeDetail()">Volver a proyectos</button>
   <div class="soy-head">
     <h2>Soy<br/>lo que creí<br/>que no era</h2>
@@ -486,7 +523,7 @@
 </section>
 
 <!-- ===== SOBRE MÍ ===== -->
-<section id="sobre">
+<section id="sobre" data-screen-label="03 Sobre mí">
   <header class="sec-head">
     <span class="num">02 / Bio</span>
     <h1>Sobre mí</h1>
@@ -494,7 +531,7 @@
   </header>
 
   <div class="sobre-grid">
-    <div class="sobre-body">
+    <div class="sobre-body" style="width: 696px">
       <p>Catamarca, Argentina.<br/>1989</p>
       <p>Soy Lucia Maisano, Argentina.<br/>
          Estudié Arte en la UNA.<br/>
@@ -511,34 +548,40 @@
          Una solidez que se desvanece en la forma. Una forma que contiene una historia, un proceso.<br/>
          Una palabra y una forma que se vuelven a convertir en la nada.</p>
       <p>Hoy subo las obras más recientes, las que quiero compartir. Vuelvan a entrar mañana, porque, quizás, todo esto pueda cambiar, como las palabras que están acá.</p>
+      <div class="sobre-meta">
+        <div><div class="k"></div><div class="v"></div></div>
+        <div><div class="k"></div><div class="v"></div></div>
+        <div><div class="k"></div><div class="v"></div></div>
+      </div>
     </div>
     <div><div class="portrait"></div></div>
   </div>
 </section>
 
 <!-- ===== CONTACTO ===== -->
-<section id="contacto">
+<section id="contacto" data-screen-label="04 Contacto">
   <header class="sec-head">
     <span class="num">03 / Contacto</span>
     <h1>Contacto</h1>
     <span class="count"></span>
   </header>
 
-  <div class="contact-body">
-    <div class="contact-lines">
-      <a href="mailto:lulimaisano@gmail.com">
-        <span>lulimaisano@gmail.com</span>
-        <span class="label">Email</span>
-      </a>
-      <a href="#" target="_blank" rel="noopener">
-        <span>@elemaisano</span>
-        <span class="label">Instagram</span>
-      </a>
+    <div class="contact-body">
+      <div class="contact-lines">
+        <a href="mailto:lulimaisano@gmail.com">
+          <span>lulimaisano@gmail.com</span>
+          <span class="label">Email</span>
+        </a>
+        <a href="#" target="_blank" rel="noopener">
+          <span>@elemaisano</span>
+          <span class="label">Instagram</span>
+        </a>
+      </div>
+      <div class="contact-note">
+        Para exhibiciones, prensa y<br/>colaboraciones — escribir directo.
+      </div>
     </div>
-    <div class="contact-note">
-      Para exhibiciones, prensa y<br/>colaboraciones — escribir directo.
-    </div>
-  </div>
+  
 </section>
 
 <footer>
@@ -546,7 +589,176 @@
   <span>Catamarca, AR</span>
 </footer>
 
+<!-- ===== TWEAKS PANEL ===== -->
+<div id="tweaks" aria-hidden="true">
+  <div class="tw-head">
+    <span>Tweaks</span>
+    <span class="tw-dot"></span>
+  </div>
+
+  <div class="tw-row">
+    <label>Display font</label>
+    <div class="tw-seg" data-key="logoFont">
+      <button data-val="archivo">Archivo</button>
+      <button data-val="anton">Anton</button>
+      <button data-val="fraunces">Fraunces</button>
+      <button data-val="typewriter">Type</button>
+    </div>
+  </div>
+
+  <div class="tw-row">
+    <label>OBRERO size <span><span class="tw-val" id="tw-size-val">22</span>vw</span></label>
+    <input type="range" min="14" max="30" step="0.5" data-key="logoSize" />
+  </div>
+
+  <div class="tw-row">
+    <label>Paper tone</label>
+    <div class="tw-swatches" data-key="paper">
+      <button data-val="#fafaf8" style="background:#fafaf8" title="Off-white"></button>
+      <button data-val="#f4efe6" style="background:#f4efe6" title="Warm"></button>
+      <button data-val="#eae6dd" style="background:#eae6dd" title="Kraft"></button>
+      <button data-val="#0f0f10" style="background:#0f0f10" title="Dark"></button>
+    </div>
+  </div>
+
+  <div class="tw-row">
+    <label>Accent</label>
+    <div class="tw-swatches" data-key="accent">
+      <button data-val="#0b0b0b" style="background:#0b0b0b"></button>
+      <button data-val="#c4452a" style="background:#c4452a"></button>
+      <button data-val="#3a5a40" style="background:#3a5a40"></button>
+      <button data-val="#3b4a9c" style="background:#3b4a9c"></button>
+    </div>
+  </div>
+
+  <div class="tw-row">
+    <label>Kicker text</label>
+    <input type="text" data-key="kicker" />
+  </div>
+
+  <div class="tw-row">
+    <label>Featured highlight</label>
+    <div class="tw-seg" data-key="featured">
+      <button data-val="on">On</button>
+      <button data-val="off">Off</button>
+    </div>
+  </div>
+
+  <div class="tw-row">
+    <label>Líneas / reglas</label>
+    <div class="tw-seg" data-key="rules">
+      <button data-val="on">On</button>
+      <button data-val="off">Off</button>
+    </div>
+  </div>
+
+  <div class="tw-row">
+    <label>Espaciado home <span><span class="tw-val" id="tw-pad-val">100</span>px</span></label>
+    <input type="range" min="40" max="200" step="10" data-key="homePad" />
+  </div>
+
+  <div class="tw-row">
+    <label>Alineación OBRERO</label>
+    <div class="tw-seg" data-key="align">
+      <button data-val="left">Izq</button>
+      <button data-val="center">Centro</button>
+      <button data-val="right">Der</button>
+    </div>
+  </div>
+
+  <div class="tw-row">
+    <label>CTA label</label>
+    <input type="text" data-key="cta" />
+  </div>
+
+  <div class="tw-row" style="border-top:1px solid #eee; padding-top:12px; margin-top:4px">
+    <label>Sobre mí — tipografía</label>
+    <div class="tw-seg" data-key="sobreFont">
+      <button data-val="sans">Sans</button>
+      <button data-val="serif">Serif</button>
+      <button data-val="mono">Mono</button>
+    </div>
+  </div>
+
+  <div class="tw-row">
+    <label>Sobre mí — tamaño texto <span><span class="tw-val" id="tw-ss-val">15</span>px</span></label>
+    <input type="range" min="12" max="22" step="0.5" data-key="sobreSize" />
+  </div>
+
+  <div class="tw-row">
+    <label>Sobre mí — layout</label>
+    <div class="tw-seg" data-key="sobreLayout">
+      <button data-val="default">Izq</button>
+      <button data-val="reverse">Der</button>
+      <button data-val="stack">Apilado</button>
+    </div>
+  </div>
+
+  <div class="tw-row">
+    <label>Sobre mí — meta</label>
+    <div class="tw-seg" data-key="sobreMeta">
+      <button data-val="on">On</button>
+      <button data-val="off">Off</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  #tweaks{
+    position:fixed; right:20px; bottom:20px;
+    width:280px;
+    background:#fff; color:#111;
+    border:1px solid #e3e1dc;
+    box-shadow:0 20px 60px rgba(0,0,0,.12);
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    padding:16px 16px 18px;
+    z-index:100;
+    display:none;
+    border-radius:2px;
+  }
+  #tweaks.on{display:block}
+  .tw-head{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    margin-bottom:14px; color:#111;
+  }
+  .tw-dot{width:8px; height:8px; background:#111; border-radius:50%}
+  .tw-row{margin-bottom:14px}
+  .tw-row label{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+    color:#666; margin-bottom:6px;
+  }
+  .tw-row .tw-val{color:#111; font-variant-numeric:tabular-nums}
+  .tw-row input[type=range]{width:100%; accent-color:#111}
+  .tw-row input[type=text]{
+    width:100%; padding:8px 10px; border:1px solid #ddd; background:#fafaf8;
+    font-family:'Inter',sans-serif; font-size:12px; color:#111;
+    border-radius:2px; box-sizing:border-box;
+  }
+  .tw-seg{display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:4px}
+  .tw-seg button{
+    padding:7px 6px; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+    background:#fafaf8; border:1px solid #e3e1dc; cursor:pointer; color:#111;
+    font-family:inherit; border-radius:2px;
+  }
+  .tw-seg button.active{background:#111; color:#fff; border-color:#111}
+  .tw-swatches{display:flex; gap:6px}
+  .tw-swatches button{width:26px; height:26px; border:1px solid #e3e1dc; cursor:pointer; padding:0; border-radius:50%}
+  .tw-swatches button.active{outline:2px solid #111; outline-offset:2px}
+
+  /* dark mode */
+  body[data-mode="dark"]{
+    --ink:#f3f1ea; --ink-soft:#d7d4cb;
+    --paper-2:rgba(255,255,255,.08); --rule:rgba(255,255,255,.12); --muted:#7a7a7a;
+  }
+  body[data-mode="dark"] nav.top{background:color-mix(in srgb, var(--paper) 92%, transparent)}
+  body[data-mode="dark"] .proj:hover{background:rgba(255,255,255,.04)}
+</style>
+
 <script>
+  // ----- NAV active -----
   const links = document.querySelectorAll('nav.top a[data-nav]');
   const sections = [...document.querySelectorAll('section[id]')].filter(s => s.id !== 'proyecto-soy');
   const setActive = () => {
@@ -558,6 +770,7 @@
   document.addEventListener('scroll', setActive, {passive:true});
   setActive();
 
+  // ----- Project detail open/close -----
   document.querySelectorAll('[data-open="soy"]').forEach(el => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
@@ -572,6 +785,140 @@
     document.getElementById('proyectos').scrollIntoView({behavior:'smooth'});
   }
   window.closeDetail = closeDetail;
+
+  // ----- TWEAKS -----
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "logoFont": "archivo",
+    "logoSize": 14,
+    "paper": "#f4efe6",
+    "accent": "#0b0b0b",
+    "kicker": "Artes visuales",
+    "featured": "on",
+    "rules": "on",
+    "homePad": 90,
+    "align": "left",
+    "cta": "Sé testigo",
+    "sobreFont": "sans",
+    "sobreSize": 15,
+    "sobreLayout": "default",
+    "sobreMeta": "on"
+  }/*EDITMODE-END*/;
+
+  const FONTS = {
+    archivo:    "'Archivo Black','Inter',sans-serif",
+    anton:      "'Anton','Inter',sans-serif",
+    fraunces:   "'Fraunces',serif",
+    typewriter: "'Special Elite','Courier New',monospace"
+  };
+
+  const tstate = {...TWEAK_DEFAULTS};
+
+  function tApply(){
+    const root = document.documentElement;
+    const body = document.body;
+    root.style.setProperty('--logo-font', FONTS[tstate.logoFont] || FONTS.archivo);
+    root.style.setProperty('--logo-size', tstate.logoSize + 'vw');
+    root.style.setProperty('--paper', tstate.paper);
+    root.style.setProperty('--accent', tstate.accent);
+
+    const hex = tstate.paper.replace('#','');
+    const r=parseInt(hex.substr(0,2),16), g=parseInt(hex.substr(2,2),16), b=parseInt(hex.substr(4,2),16);
+    const lum = (0.299*r + 0.587*g + 0.114*b)/255;
+    body.dataset.mode = lum < 0.3 ? 'dark' : 'light';
+
+    const kick = document.querySelector('#home .kicker');
+    if (kick) kick.textContent = tstate.kicker;
+
+    // rules / lines toggle
+    body.dataset.rules = tstate.rules;
+
+    // home padding
+    const home = document.getElementById('home');
+    if (home) home.style.paddingTop = 'calc(var(--nav-h) + ' + tstate.homePad + 'px)';
+
+    // alignment of OBRERO + kicker + meta
+    if (home){
+      const map = {left:'flex-start', center:'center', right:'flex-end'};
+      const txt = {left:'left', center:'center', right:'right'};
+      home.style.alignItems = map[tstate.align] || 'flex-start';
+      home.style.textAlign = txt[tstate.align] || 'left';
+    }
+
+    // CTA label
+    const cta = document.querySelector('.home-cta');
+    if (cta){
+      const arrow = cta.querySelector('.arrow');
+      cta.textContent = tstate.cta + ' ';
+      if (arrow) cta.appendChild(arrow);
+      else { const a = document.createElement('span'); a.className='arrow'; cta.appendChild(a); }
+    }
+
+    // Sobre mí tweaks
+    const SOBRE_FONTS = {
+      sans: "'Inter',system-ui,sans-serif",
+      serif: "'Fraunces',serif",
+      mono: "'IBM Plex Mono',monospace"
+    };
+    root.style.setProperty('--sobre-font', SOBRE_FONTS[tstate.sobreFont] || SOBRE_FONTS.sans);
+    root.style.setProperty('--sobre-size', tstate.sobreSize + 'px');
+    body.dataset.sobreLayout = tstate.sobreLayout;
+    const meta = document.querySelector('.sobre-meta');
+    if (meta) meta.style.display = tstate.sobreMeta === 'off' ? 'none' : '';
+
+    const feat = document.querySelector('.proj.primary');
+    if (feat){
+      if (tstate.featured === 'off') feat.classList.remove('primary');
+    } else {
+      if (tstate.featured === 'on'){
+        const first = document.querySelector('.projects-list .proj');
+        if (first) first.classList.add('primary');
+      }
+    }
+
+    document.querySelectorAll('.tw-seg').forEach(seg => {
+      const k = seg.dataset.key;
+      seg.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.val === String(tstate[k])));
+    });
+    document.querySelectorAll('.tw-swatches').forEach(sw => {
+      const k = sw.dataset.key;
+      sw.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.val === tstate[k]));
+    });
+    document.querySelectorAll('#tweaks input[type=range]').forEach(r => { if (r.dataset.key) r.value = tstate[r.dataset.key]; });
+    document.querySelectorAll('#tweaks input[type=text]').forEach(t => { if (t.dataset.key) t.value = tstate[t.dataset.key]; });
+    const sv = document.getElementById('tw-size-val'); if(sv) sv.textContent = Number(tstate.logoSize).toFixed(1);
+    const pv = document.getElementById('tw-pad-val'); if(pv) pv.textContent = Number(tstate.homePad).toFixed(0);
+    const ssv = document.getElementById('tw-ss-val'); if(ssv) ssv.textContent = Number(tstate.sobreSize).toFixed(0);
+  }
+
+  function tSet(key, val){
+    tstate[key] = val;
+    tApply();
+    try { window.parent.postMessage({type:'__edit_mode_set_keys', edits:{[key]: val}}, '*'); } catch(e){}
+  }
+
+  document.querySelectorAll('#tweaks .tw-seg, #tweaks .tw-swatches').forEach(group => {
+    const k = group.dataset.key;
+    group.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      tSet(k, b.dataset.val);
+    });
+  });
+  document.querySelectorAll('#tweaks input[type=range]').forEach(r => {
+    r.addEventListener('input', () => tSet(r.dataset.key, parseFloat(r.value)));
+  });
+  document.querySelectorAll('#tweaks input[type=text]').forEach(t => {
+    t.addEventListener('input', () => tSet(t.dataset.key, t.value));
+  });
+
+  tApply();
+
+  window.addEventListener('message', (e) => {
+    const d = e.data || {};
+    if (d.type === '__activate_edit_mode') document.getElementById('tweaks').classList.add('on');
+    if (d.type === '__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('on');
+  });
+  try { window.parent.postMessage({type:'__edit_mode_available'}, '*'); } catch(e){}
 </script>
 
 </body>
