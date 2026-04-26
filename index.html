@@ -429,7 +429,7 @@
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 900px){
-    :root{--page-x:20px; --logo-size: 28vw}
+    :root{--page-x:24px; --logo-size: 26vw}
     nav.top ul{gap:18px}
     .home-meta{grid-template-columns:1fr; gap:12px}
     .home-meta .right{text-align:left}
@@ -440,6 +440,73 @@
     .soy-head{grid-template-columns:1fr; gap:24px}
     .soy-grid{grid-template-columns:repeat(2,1fr)}
     .work.wide{grid-column: span 2}
+    .modal-paper{padding:64px 48px 72px}
+  }
+  @media (max-width: 640px){
+    :root{--page-x:20px; --logo-size: 30vw; --nav-h:52px}
+    /* nav: tap targets más cómodos */
+    nav.top{padding:0 var(--page-x)}
+    nav.top ul{gap:14px}
+    nav.top a{padding:14px 0; font-size:10px; letter-spacing:.16em}
+
+    /* home: respiración menor arriba */
+    #home{padding-top:calc(var(--nav-h) + 60px)}
+    .obrero-mark{letter-spacing:-.05em}
+    .home-cta{padding:24px 0 28px}
+
+    /* sec-head: apilado, num arriba, h1 grande, count abajo */
+    section{padding:calc(var(--nav-h) + 16px) var(--page-x) 48px}
+    .sec-head{
+      flex-direction:column; align-items:flex-start;
+      gap:14px; padding:32px 0 40px; margin-bottom:40px;
+    }
+    .sec-head h1{font-size:clamp(48px, 14vw, 96px); line-height:.88}
+    .sec-head .count{align-self:flex-end}
+
+    /* proyectos: primary con padding humano */
+    .projects-list .proj{padding:24px 0}
+    .proj.primary{padding-left:18px; padding-right:18px}
+    .proj.primary:hover{padding-left:18px}
+    .proj .title{font-size:clamp(22px, 6.5vw, 30px)}
+    .proj .desc{font-size:12px; line-height:1.5}
+    .proj .year{font-size:10px}
+
+    /* sobre mí: lead más controlado */
+    .sobre-body p.lead{font-size:clamp(28px, 8vw, 40px); margin-bottom:28px}
+    .sobre-body p{font-size:15px; line-height:1.7}
+    .sobre-meta{grid-template-columns:repeat(2,1fr); gap:18px}
+
+    /* contacto: ítems apilados, título y label en columnas */
+    .contact-lines a{
+      flex-direction:column; align-items:flex-start; gap:8px;
+      padding:18px 0;
+      font-size:clamp(22px, 6.5vw, 28px);
+    }
+    .contact-lines a .label{order:-1; opacity:.7}
+
+    /* detalle Soy lo que creí */
+    #proyecto-soy{padding-top:calc(var(--nav-h) + 24px)}
+    .back{margin-bottom:24px; padding:8px 0}
+    .soy-head h2{font-size:clamp(40px, 11vw, 80px)}
+    .soy-grid{grid-template-columns:repeat(2,1fr); gap:8px}
+    .work .w-text{font-size:clamp(14px, 4vw, 20px)}
+
+    /* footer */
+    footer{flex-direction:column; align-items:flex-start; gap:12px}
+
+    /* modal prólogo */
+    .modal-backdrop{padding:4vh 0; align-items:flex-start}
+    .modal-paper{padding:48px 24px 56px; max-width:none}
+    .modal-paper h2{font-size:clamp(26px, 7.5vw, 40px)}
+    .modal-paper .modal-subtitle{font-size:clamp(18px, 5vw, 24px)}
+    .modal-close{top:14px; right:14px; padding:10px 14px}
+    .modal-body p{font-size:14.5px; line-height:1.75}
+  }
+  @media (max-width: 380px){
+    :root{--page-x:16px; --logo-size:32vw}
+    nav.top ul{gap:10px}
+    nav.top a{font-size:9.5px; letter-spacing:.14em}
+    .sobre-meta{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -889,7 +956,6 @@
     font-weight:500;
   }
   @media (max-width:640px){
-    .modal-paper{padding:56px 28px 64px}
     .modal-body .blank{width:100px}
   }
 </style>
