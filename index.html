@@ -254,10 +254,11 @@
   /* ---------- SOBRE MÍ ---------- */
   #sobre .sobre-grid{
     display:grid;
-    grid-template-columns: var(--sobre-cols, 1.1fr 1fr);
+    grid-template-columns: var(--sobre-cols, 1.4fr 1fr);
     gap:80px;
     align-items:start;
   }
+  #sobre .sobre-grid .portrait{max-width:420px}
   body[data-sobre-layout="reverse"] #sobre .sobre-grid > div:first-child{order:2}
   body[data-sobre-layout="reverse"] #sobre .sobre-grid > div:last-child{order:1}
   body[data-sobre-layout="stack"] #sobre .sobre-grid{grid-template-columns:1fr}
