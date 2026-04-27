@@ -279,16 +279,11 @@
   }
   .portrait{
     width:100%; aspect-ratio:4/5;
-    background:linear-gradient(135deg,#1a1a1a,#3a3a3a);
     position:relative; overflow:hidden;
+    background:#1a1a1a;
   }
-  .portrait::after{
-    content:"PORTRAIT · B&W — drop artist photo here";
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
-    color:rgba(255,255,255,.55);
-    font-family:var(--mono); font-size:11px; letter-spacing:.14em;
-    background-image:repeating-linear-gradient(45deg, transparent 0 14px, rgba(255,255,255,.025) 14px 15px);
+  .portrait img{
+    width:100%; height:100%; object-fit:cover; display:block;
   }
   .sobre-meta{
     margin-top:40px;
@@ -655,7 +650,7 @@
         <div><div class="k"></div><div class="v"></div></div>
       </div>
     </div>
-    <div><div class="portrait"></div></div>
+    <div><div class="portrait"><img src="yo.jpg" alt="Lucía Maisano" loading="lazy"></div></div>
   </div>
 </section>
 
