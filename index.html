@@ -1298,6 +1298,8 @@
   tApply();
 
   window.addEventListener('message', (e) => {
+    const ALLOWED_ORIGINS = [location.origin, 'https://claude.ai'];
+    if (!ALLOWED_ORIGINS.includes(e.origin)) return;
     const d = e.data || {};
     if (d.type === '__activate_edit_mode') document.getElementById('tweaks').classList.add('on');
     if (d.type === '__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('on');
